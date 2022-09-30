@@ -7,3 +7,6 @@
 // 7. Create other graphic parts of the game  
 // 8. Game over
 // 9. New game
+
+import shipsArray from "./battleships.js";
+console.log (shipsArray);
