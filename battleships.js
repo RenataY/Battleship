@@ -2,14 +2,14 @@ export const shipsArray = [
     {
         id: 1,
         name: "Aircraftcarrier",
-        size: 5,
+        size: 6,
         image: ""
 
     },
     {
         id: 2,
         name: "Battleship",
-        size: 4,
+        size: 5,
         image: ""
 
     },
@@ -23,14 +23,14 @@ export const shipsArray = [
     {
         id: 4,
         name: "Submarine 1",
-        size: 2,
+        size: 3,
         image: ""
 
     },
     {
         id: 5,
         name: "Submarine 2",
-        size: 2,
+        size: 3,
         image: ""
 
     },

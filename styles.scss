@@ -1,0 +1,86 @@
+$gameBackgroud: #005F73;
+$gameFont: 'Gravitas One';
+$gameFontColor: #D9D9D9;
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: $gameFont;
+}
+
+.game-container {
+    width: 100vw;
+    height: 100vh;
+    padding: 10px;
+    display: grid;
+    
+    // grid-template-areas: 
+    //     "header board"
+    //     "header rules";
+    grid-template-columns: 1fr 4fr 2fr;
+    gap:5px;
+}
+
+.game-name {
+    // grid-area: header;
+    padding: 5px;
+    background-color: $gameBackgroud;
+    border: solid;
+    text-align: center;
+    writing-mode: vertical-rl;
+    transform: rotate(-180deg);
+
+    &__h1 {
+        font-size: 110px;
+        padding-right: 60px;
+        color: $gameFontColor;
+    }
+}
+
+
+.game-board {
+//     grid-area: board;
+    padding: 5px;
+    border: solid;
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    background-image: url("./images/bottleship-background.jpg");
+    background-size: cover;
+    background-color: $gameFontColor;
+    &__button {
+        background-color: transparent;
+       border: 1px solid $gameFontColor;
+    }
+}
+// .game-board__button {
+//     //background-color: transparent;
+//     border: 1px solid $gameFontColor;
+
+// }
+.ships-rules {
+//     grid-area: rules;
+    padding: 5px;
+    background-color: $gameBackgroud;
+    border: solid;
+
+    &__p {
+        padding: 10px;
+        font-size: 28px;
+        color: $gameFontColor;
+    }
+
+    &__turn {
+        display: flex;
+        padding: 10px;
+        margin: 10px;
+
+        &__left, &__right {
+            padding: 10px;
+        }
+    }
+    
+}
+.ships-rules__pics {
+    padding: 10px;
+}

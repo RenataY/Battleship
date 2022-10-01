@@ -1,0 +1,67 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Gravitas One";
+}
+
+.game-container {
+  width: 100vw;
+  height: 100vh;
+  padding: 10px;
+  display: grid;
+  grid-template-columns: 1fr 4fr 2fr;
+  gap: 5px;
+}
+
+.game-name {
+  padding: 5px;
+  background-color: #005F73;
+  border: solid;
+  text-align: center;
+  -ms-writing-mode: tb-rl;
+      writing-mode: vertical-rl;
+  transform: rotate(-180deg);
+}
+.game-name__h1 {
+  font-size: 110px;
+  padding-right: 60px;
+  color: #D9D9D9;
+}
+
+.game-board {
+  padding: 5px;
+  border: solid;
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  background-image: url("./images/bottleship-background.jpg");
+  background-size: cover;
+  background-color: #D9D9D9;
+}
+.game-board__button {
+  background-color: transparent;
+  border: 1px solid #D9D9D9;
+}
+
+.ships-rules {
+  padding: 5px;
+  background-color: #005F73;
+  border: solid;
+}
+.ships-rules__p {
+  padding: 10px;
+  font-size: 28px;
+  color: #D9D9D9;
+}
+.ships-rules__turn {
+  display: flex;
+  padding: 10px;
+  margin: 10px;
+}
+.ships-rules__turn__left, .ships-rules__turn__right {
+  padding: 10px;
+}
+
+.ships-rules__pics {
+  padding: 10px;
+}/*# sourceMappingURL=styles.css.map */

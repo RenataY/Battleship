@@ -10,3 +10,30 @@
 
 import shipsArray from "./battleships.js";
 console.log (shipsArray);
+
+// get game board container
+const container = document.querySelector(".game-board");
+
+// create one cell
+const createBoardCell = (id) => {
+    return `<button type="button" id=${id} class="game-board__button"></button>`
+} 
+
+// create 10 x 10 board
+
+const createBoard = () => {
+    for (let i=0; i<10; i++) {
+        for (let j=0; j<10; j++) {
+            container.innerHTML += createBoardCell(`${i}${j}`)
+        }
+    }
+}
+
+createBoard();
+
+// get one button and try to click, concerned as it is transparent
+const btn1 = document.getElementById("01");
+console.log(btn1);
+btn1.addEventListener ("click", (event) => {
+    console.log("button 1 clicked");
+})
