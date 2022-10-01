@@ -29,11 +29,31 @@ const createBoard = () => {
     }
 }
 
-createBoard();
+//createBoard();
 
 // get one button and try to click, concerned as it is transparent
 const btn1 = document.getElementById("01");
 console.log(btn1);
 btn1.addEventListener ("click", (event) => {
     console.log("button 1 clicked");
+    btn1.style.backgroundImage = "url(./images/explosion1.gif)";
+    btn1.style.backgroundSize = "cover";
+})
+
+// get another button and try to click, concerned as it is transparent
+const btn2 = document.getElementById("02");
+console.log(btn2);
+btn2.addEventListener ("click", (event) => {
+    console.log("button 2 clicked");
+    btn2.style.backgroundImage = "url(./images/explosion.gif)";
+    btn2.style.backgroundSize = "cover";
+})
+
+// get another button and try to click, concerned as it is transparent
+const btn3 = document.getElementById("03");
+console.log(btn3);
+btn3.addEventListener ("click", (event) => {
+    console.log("button 3 clicked");
+    btn3.style.backgroundImage = "url(./images/water-splash.gif)";
+    btn3.style.backgroundSize = "cover";
 })
