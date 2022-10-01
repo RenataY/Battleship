@@ -65,6 +65,7 @@ $gameFontColor: #D9D9D9;
     &__button {
         background-color: transparent;
         border: 1px solid $gameFontColor;
+        cursor: url("./images/crosshairs-solid.svg"), auto;
     }
 }
 

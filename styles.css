@@ -50,6 +50,7 @@
 .game-board__button {
   background-color: transparent;
   border: 1px solid #D9D9D9;
+  cursor: url("./images/crosshairs-solid.svg"), auto;
 }
 
 .ships-rules {
