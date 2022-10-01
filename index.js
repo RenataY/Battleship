@@ -9,10 +9,16 @@
 // 9. New game
 
 import shipsArray from "./battleships.js";
-console.log (shipsArray);
+let gameStarted = false;
 
 // get game board container
 const container = document.querySelector(".game-board");
+
+// get play button
+const playButton = document.querySelector(".game-board__playbutton");
+
+// get ships and rules section
+const shipsAndRules = document.querySelector(".ships-rules");
 
 // create one cell
 const createBoardCell = (id) => {
@@ -29,31 +35,48 @@ const createBoard = () => {
     }
 }
 
-//createBoard();
+playButton.addEventListener("click", (event) => {
+    gameStarted = true;
+    console.log (gameStarted);
+    container.innerHTML="";
+    container.style.backgroundImage = "url(./images/battleship-background3.jpg)"
+    // add event listener for all buttons inside the function
+    createBoard();
+    shipsAndRules.innerHTML = "";
+    // create array of objects for pictures and classes and refactor below to function
+    shipsAndRules.innerHTML = 
+                    `<div class="ships-rules__ships">
+                        <img src="./images/aircraft-carrier.png" alt="aircraft carrier image" class="ships-rules__ships__aircraft">
+                        <img src="./images/battleship.png" alt="battleship image" class="ships-rules__ships__battleship">
+                        <img src="./images/cruiser.png" alt="cruiser image" class="ships-rules__ships__cruiser">
+                        <img src="./images/submarine1.png" alt="submarine image" class="ships-rules__ships__submarine1">
+                        <img src="./images/submarine2.png" alt="submarine image" class="ships-rules__ships__submarine2">
+                        <img src="./images/patrol-boat1.png" alt="patrolboat 1 image" class="ships-rules__ships__patrol1"> 
+                        <img src="./images/patrol-boat2.png" alt="patrolboat 2 image" class="ships-rules__ships__patrol2"> 
+                        <button type="button" class="ships-rules__new-game">New Game</button>
+                    </div>`
+     // get one button and try to click, concerned as it is transparent
+     const btn1 = document.getElementById("01");
+     btn1.addEventListener ("click", (event) => {
+         btn1.style.backgroundImage = "url(./images/explosion1.gif)";
+         btn1.style.backgroundSize = "cover";
+     })
 
-// get one button and try to click, concerned as it is transparent
-const btn1 = document.getElementById("01");
-console.log(btn1);
-btn1.addEventListener ("click", (event) => {
-    console.log("button 1 clicked");
-    btn1.style.backgroundImage = "url(./images/explosion1.gif)";
-    btn1.style.backgroundSize = "cover";
+     // get another button and try to click, concerned as it is transparent
+     const btn2 = document.getElementById("02");
+     btn2.addEventListener ("click", (event) => {
+         console.log("button 2 clicked");
+         btn2.style.backgroundImage = "url(./images/explosion.gif)";
+         btn2.style.backgroundSize = "cover";
+     })
+
+     // get another button and try to click, concerned as it is transparent
+     const btn3 = document.getElementById("03");
+     btn3.addEventListener ("click", (event) => {
+         console.log("button 3 clicked");
+         btn3.style.backgroundImage = "url(./images/water-splash.gif)";
+         btn3.style.backgroundSize = "cover";
+     })
+             
 })
 
-// get another button and try to click, concerned as it is transparent
-const btn2 = document.getElementById("02");
-console.log(btn2);
-btn2.addEventListener ("click", (event) => {
-    console.log("button 2 clicked");
-    btn2.style.backgroundImage = "url(./images/explosion.gif)";
-    btn2.style.backgroundSize = "cover";
-})
-
-// get another button and try to click, concerned as it is transparent
-const btn3 = document.getElementById("03");
-console.log(btn3);
-btn3.addEventListener ("click", (event) => {
-    console.log("button 3 clicked");
-    btn3.style.backgroundImage = "url(./images/water-splash.gif)";
-    btn3.style.backgroundSize = "cover";
-})
