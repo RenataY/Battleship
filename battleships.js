@@ -45,7 +45,7 @@ export const shipsArray = [
     {
         id: 6,
         name: "Patrol Boat 1",
-        size: 1,
+        size: 2,
         image: "./images/patrol-boat1.png",
         imageHit: "./images/patrol-boat1-hit.png",
         picClass: "patrol1"
@@ -54,7 +54,7 @@ export const shipsArray = [
     {
         id: 7,
         name: "Patrol Boat 2",
-        size: 1,
+        size: 2,
         image: "./images/patrol-boat2.png",
         imageHit: "./images/patrol-boat2-hit.png",
         picClass: "patrol2"       

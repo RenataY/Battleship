@@ -165,93 +165,76 @@ const validateShipWithinBoard = (shipLocation) => {
             }
         }
     }   
-    console.log(withinBoard);
+    //console.log(withinBoard);
     return (withinBoard);
 }
 
-// function to validate if two ships colide
-const validateShipsDoNotColide = (shipLocation1ArrayOfStrings,shipLocation2ArrayOfString) => {
+// function to validate if one ship colides with other ships
+const validateShipsDoNotCollide = (id,shipLocationArrayOfStrings) => {
     let isCollision = "Ships do not collide";
-        for (let i=0; i<shipLocation1ArrayOfStrings.length; i++) {
-            for (let j=0; j<shipLocation2ArrayOfString.length; j++) {
-                if (shipLocation1ArrayOfStrings[i] === shipLocation2ArrayOfString[j]) {
-                    isCollision = "Ships collide";
-                    console.log(shipLocation1ArrayOfStrings[i] + " " + shipLocation2ArrayOfString[j])
-                
-                }
+    let prevShipsLocations = [];
+    for (let i =0; i<id-1; i++) {
+        prevShipsLocations = prevShipsLocations.concat(shipsArray[i].locationString);
+    }  
+    for (let i=0; i<shipLocationArrayOfStrings.length; i++) {
+        for (let j=0; j<prevShipsLocations.length; j++) {
+            if (shipLocationArrayOfStrings[i] === prevShipsLocations[j]) {
+                isCollision = "Ships collide";
+                console.log(shipLocationArrayOfStrings[i] + " " + prevShipsLocations[j])
+            
             }
         }
+    }  
+    //console.log(prevShipsLocations);
     return isCollision;
 }
-
-// generate ships location
-
-
-let location = generateShipLocation (6);
-let isWithinBoardShip1 = validateShipWithinBoard (location);
-console.log("isWithinBoardShip1 " + isWithinBoardShip1)
-// validate ship within board
-let counter1 = 0;
-while (isWithinBoardShip1 == false && counter1 < 10) {
-    console.log ("regenerating ship1 location attempt # " + counter1) ;
-    counter1++;
-    if (counter1 === 9) {
-         console.log("couldn't generate valid location for ship 1 within 10 attempts");
-         break;
-     }
-    
-    location = generateShipLocation(6);
-    isWithinBoardShip1 = validateShipWithinBoard (location);
-}
-console.table(location);
-
-let location2 = generateShipLocation (5);
-let isWithinBoardShip2 = validateShipWithinBoard (location2);
-console.log("isWithinBoardShip2 " + isWithinBoardShip2);
-let counter2 = 0;
-while (isWithinBoardShip2 === false && counter2 < 10 ) {
-    console.log ("regenerating ship2 location attempt # " + counter2) ;
-    counter2++;
-     if (counter2 == 9) {
-         console.log("couldn't generate valid location for ship 2 within 10 attempts");
-         break;
-     }    
-    location2 = generateShipLocation(5);
-    isWithinBoardShip2 = validateShipWithinBoard (location2);
-
-}
-console.table(location2);
-//console.log(validateShipsDoNotColide (["21","22","23"], ["13","23","33"]));
-// create an array of strings as a ship location
+// convert array of arrays ship location to string
 const shipStringLocation = (location) => {
     let locationString = [];
     for (let i=0; i<location.length; i++) {
-        locationString[i] = location[i].join("");
-    }
+            locationString[i] = location[i].join("");
+        }
     return locationString;
-}
-let ship1StringLocation = shipStringLocation(location);
-let ship2StringLocation = shipStringLocation(location2);
-console.log(validateShipsDoNotColide (ship1StringLocation, ship2StringLocation));
-let collide = validateShipsDoNotColide (ship1StringLocation, ship2StringLocation);
-let counter3 = 0;
-// while ships collide regenerate last created ship location in less than 10 attempts
-while (collide === "Ships collide" && counter3 <10 ) {
-    console.log ("regenerating ship2 location due to collision attempt # " + counter3) ;
-    counter3++;
-    if (counter3 == 9) {
-        console.log("couldn't generate valid location for ship 2 due to collision within 10 attempts");
-        break;
-    }    
-    location2 = generateShipLocation(5);
-    ship2StringLocation = shipStringLocation(location2);
-    collide = validateShipsDoNotColide (ship1StringLocation, ship2StringLocation);
-}
+    }
 
+// generate ships location and validate within board and collision
+shipsArray.forEach((ship => {
+    let location = generateShipLocation(ship.size);
+    let locationString = shipStringLocation(location);
+    console.log(`${ship.name} was initially generated, and its initial location is ${locationString}`);
+    //console.log(locationString);
+    let shipWithinBoard = validateShipWithinBoard (location);
+    //console.log("isWithinBoard " + shipWithinBoard);
+    let collide = validateShipsDoNotCollide(ship.id,locationString);
+    //console.log("collision " + collide);
+    
+    let counter = 0;
+    
+    while ((shipWithinBoard == false || collide == "Ships collide") && counter < 10) {
+        //|| collide == "Ships collide"
+        console.log ("regenerating ship location attempt # " + counter) ;
+        counter++;
+        if (counter === 9) {
+             console.log("couldn't generate valid location for ship within 10 attempts");
+             break;
+         }
+        location = generateShipLocation(ship.size);
+        locationString  = shipStringLocation(location);
+        console.log(`Attempt # ${counter} to generate ${ship.name}, its location is ${locationString}`);
+        shipWithinBoard = validateShipWithinBoard (location);
+        //console.log("isWithinBoard2 " + shipWithinBoard);
+        collide = validateShipsDoNotCollide(ship.id,locationString);
+        //console.log("collision2 " + collide);
 
+    }
+    ship.location = location;
+    ship.locationString  = locationString;
+    console.log(`${ship.name} size is ${ship.size} and its location is ${ship.locationString}`);
+    //console.table(ship.location);    
+} // for each end
+))
 
-
-
-
-
-
+shipsArray.forEach((ship => {
+    console.table(ship.location);
+    console.log(ship.locationString);
+}))
