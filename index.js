@@ -117,7 +117,7 @@ const prepareNewGame = () => {
                         ${gameShipsPanel()}   
                     </div>`  
     putShipsOnBoard();                   
-    displayShips();
+    //displayShips();
     const newGameButton = document.querySelector(".ships-rules__new-game");
     newGameButton.addEventListener ("click", (event) => {
         console.log("New Game button clicked")
@@ -126,7 +126,7 @@ const prepareNewGame = () => {
     
     const allButtons = document.getElementsByClassName("game-board__button");
     for (let i=0; i<allButtons.length;i++) {
-        let btnHit = false;
+        //let btnHit = false;
         allButtons[i].addEventListener("click", (event) => {
             
             for (let j=0; j<shipsArray.length; j++) {
