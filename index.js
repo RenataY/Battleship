@@ -57,7 +57,7 @@ const displayShips = () => {
             btn = document.getElementById(ship.locationString[i]);
             btn.style.backgroundColor = "black";
             btn.innerHTML = btn.id;
-            btn.style.color = "white";
+            //btn.style.color = "white";
             btn.style.fontSize = "18px"     
         }
     }))
