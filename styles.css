@@ -73,7 +73,6 @@
   background-color: transparent;
   border: 1px solid #D9D9D9;
   cursor: url("./images/crosshairs-solid.svg"), auto;
-  color: black;
 }
 @media screen and (max-width: 500px) {
   .game-board {
