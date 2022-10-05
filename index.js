@@ -43,18 +43,9 @@ const gameShipsPanel = () => {
 
 // function to replace a ship picture with hit ship picture
 const replaceToHitShipPic = (ship) => {
-    const shipPic = document.querySelector(".ships-rules__ships__" + ship );
+    const shipPic = document.querySelector(".ships-rules__ships__" + ship.picClass );
     console.log (shipPic);
-    shipPic.src = shipsArray[2].imageHit;
-}
-// function to handle miss
-const missClick = () => {
-    const btn1 = document.getElementById("11");
-    btn1.addEventListener ("click", (event) => {
-         btn1.style.backgroundImage = "url(./images/explosion1.gif)";
-         btn1.style.backgroundSize = "cover";
-         replaceToHitShipPic ("cruiser");
-     })
+    shipPic.src = ship.imageHit;
 }
 // just for development - function to display ships on the board
 const displayShips = () => {
@@ -79,14 +70,38 @@ const createShipLocationsStatus = (shipId, shipLocationArray) => {
         }
     }
 }
-// return updated ship location status
+// function to return updated ship location status
 const updateShipLocationStatus = (shipLocationArray, shipLocationStatusArray, buttonId) => {
     for (let i=0; i<shipLocationArray.length; i++) {
-        if (shipLocationArray[i] === buttonId) 
-            shipLocationStatusArray[i] = true;
-    return shipLocationStatusArray;;
+        if (shipLocationArray[i] === buttonId) {
+            shipLocationStatusArray[i] = true;                   
+        }               
     }
-}    
+    return shipLocationStatusArray;
+} 
+// function to return if a clicked button is a hit
+const buttonImage = (buttonId) => {
+    let isHit = false;
+    for (let i=0; i<shipsArray.length; i++) {
+        for (let j=0; j<shipsArray[i].locationString.length; j++) {
+            //console.log("shipsArray[i].locationString[j] " + shipsArray[i].locationString[j] + "buttonId " + buttonId);
+            if (shipsArray[i].locationString[j] == buttonId ) isHit = true;
+        }
+    }
+    return isHit;
+}
+
+// function to return if a ship is destroyed
+const isShipDestroyed = (ship) => {
+    let isDestroyed = false;
+    let counter = 0;
+    for (let i=0; i<ship.locationStatus.length; i++) {
+        if (ship.locationStatus[i] == true) counter++;
+    }
+    if (ship.locationStatus.length === counter) isDestroyed = true;
+    return isDestroyed;
+} 
+
 const prepareNewGame = () => {
     gameStarted = true;
     console.log (gameStarted);
@@ -111,44 +126,31 @@ const prepareNewGame = () => {
     
     const allButtons = document.getElementsByClassName("game-board__button");
     for (let i=0; i<allButtons.length;i++) {
+        let btnHit = false;
         allButtons[i].addEventListener("click", (event) => {
+            
             for (let j=0; j<shipsArray.length; j++) {
                 updateShipLocationStatus(shipsArray[j].locationString, shipsArray[j].locationStatus, allButtons[i].id);
+                if (isShipDestroyed(shipsArray[j])) replaceToHitShipPic(shipsArray[j]);
+                console.log("Is ship destroyed: " + isShipDestroyed(shipsArray[j]));
                 console.log(shipsArray[j].name);
                 console.log(shipsArray[j].locationString);
+                console.log(shipsArray[j].locationString.length);
                 console.log(shipsArray[j].locationStatus);
             }
+
             console.log(allButtons[i].id);
+            if (buttonImage(allButtons[i].id)) {
+                allButtons[i].style.backgroundImage = "url(./images/explosion1.gif)";
+                allButtons[i].style.backgroundSize = "cover";
+            }   
+            else {
+                allButtons[i].style.backgroundImage = "url(./images/water-splash.gif)";
+                allButtons[i].style.backgroundSize = "cover";
+            }
             
-            allButtons[i].style.backgroundImage = "url(./images/explosion1.gif)";
-            allButtons[i].style.backgroundSize = "cover";
         })
-    }
-    // get one button and try to click
-     const btn1 = document.getElementById("11");
-     console.log(typeof btn1);
-     btn1.addEventListener ("click", (event) => {
-         btn1.style.backgroundImage = "url(./images/explosion1.gif)";
-         btn1.style.backgroundSize = "cover";
-         replaceToHitShipPic ("cruiser");
-     })
-
-     // get another button and try to click
-     const btn2 = document.getElementById("12");
-     btn2.addEventListener ("click", (event) => {
-         console.log("button 2 clicked");
-         btn2.style.backgroundImage = "url(./images/explosion.gif)";
-         btn2.style.backgroundSize = "cover";
-     })
-
-     // get another button and try to click
-     const btn3 = document.getElementById("13");
-     btn3.addEventListener ("click", (event) => {
-         console.log("button 3 clicked");
-         btn3.style.backgroundImage = "url(./images/water-splash.gif)";
-         btn3.style.backgroundSize = "cover";
-     })
-             
+    }             
 }
 
 // start the game, main function
@@ -156,6 +158,7 @@ playButton.addEventListener("click", (event) => {
     prepareNewGame();
 })
 
+//const directions = ["down", "right"];
 const directions = ["up", "down", "right", "left"];
 
 const generateShipLocation = (ship_lenght) => {
