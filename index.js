@@ -2,10 +2,10 @@
 // 2. Done - Create ships structure
 // 3. Done - Logically place random ship on the board
 // 4. Done Place ships function - validate its on the board, doesn't clash with other ships
-// 5. Hit function
-// 6. Miss function
+// 5. Done - Hit function
+// 6. Not needed Miss function
 // 7. Done - Create other graphic parts of the game  
-// 8. Game over
+// 8. Not needed Game over
 // 9. Done-  New game
 
 import shipsArray from "./battleships.js";
@@ -62,14 +62,6 @@ const displayShips = () => {
         }
     }))
 } 
-// create ship's location status array
-const createShipLocationsStatus = (shipId, shipLocationArray) => {
-    for (let i=0; i<shipsArray.length; i++) {
-        if (shipsArray[i].id === shipId) {
-            shipsArray[i].locationStatus.id = "notHit";
-        }
-    }
-}
 // function to return updated ship location status
 const updateShipLocationStatus = (shipLocationArray, shipLocationStatusArray, buttonId) => {
     for (let i=0; i<shipLocationArray.length; i++) {
@@ -107,13 +99,12 @@ const prepareNewGame = () => {
     console.log (gameStarted);
     container.innerHTML="";
     container.style.backgroundImage = "url(./images/battleship-background3.jpg)"
-    // add event listener for all buttons inside the function
     createBoard();
     shipsAndRules.innerHTML = "";
     shipsAndRules.innerHTML = 
-                    `<div class="ships-rules__ships">
-                                            
+                    `<div class="ships-rules__ships">                                            
                         <button type="button" class="ships-rules__new-game">New Game</button>
+                        <button type="button" class="ships-rules__reveal-ships">Reveal Ships</button>  
                         ${gameShipsPanel()}   
                     </div>`  
     putShipsOnBoard();                   
@@ -123,7 +114,11 @@ const prepareNewGame = () => {
         console.log("New Game button clicked")
         prepareNewGame();
     })
-    
+    const revealShipsButton = document.querySelector(".ships-rules__reveal-ships");
+    revealShipsButton.addEventListener ("click", (event) => {
+        console.log("Reveal ships button clicked");
+        displayShips();
+    })
     const allButtons = document.getElementsByClassName("game-board__button");
     for (let i=0; i<allButtons.length;i++) {
         //let btnHit = false;
@@ -158,7 +153,6 @@ playButton.addEventListener("click", (event) => {
     prepareNewGame();
 })
 
-//const directions = ["down", "right"];
 const directions = ["up", "down", "right", "left"];
 
 const generateShipLocation = (ship_lenght) => {
