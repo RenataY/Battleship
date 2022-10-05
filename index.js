@@ -1,7 +1,7 @@
 // 1. Done - Create grid html with javascript
 // 2. Done - Create ships structure
-// 3. Logically place random ship on the board
-// 4. Place ships function - validate its on the board, doesn't clash with other ships
+// 3. Done - Logically place random ship on the board
+// 4. Done Place ships function - validate its on the board, doesn't clash with other ships
 // 5. Hit function
 // 6. Miss function
 // 7. Done - Create other graphic parts of the game  
@@ -27,8 +27,8 @@ const createBoardCell = (id) => {
 
 // create 10 x 10 board
 const createBoard = () => {
-    for (let i=0; i<10; i++) {
-        for (let j=0; j<10; j++) {
+    for (let i=1; i<11; i++) {
+        for (let j=1; j<11; j++) {
             container.innerHTML += createBoardCell(`${i}${j}`)
         }
     }
@@ -47,7 +47,46 @@ const replaceToHitShipPic = (ship) => {
     console.log (shipPic);
     shipPic.src = shipsArray[2].imageHit;
 }
-
+// function to handle miss
+const missClick = () => {
+    const btn1 = document.getElementById("11");
+    btn1.addEventListener ("click", (event) => {
+         btn1.style.backgroundImage = "url(./images/explosion1.gif)";
+         btn1.style.backgroundSize = "cover";
+         replaceToHitShipPic ("cruiser");
+     })
+}
+// just for development - function to display ships on the board
+const displayShips = () => {
+    shipsArray.forEach((ship => {
+        const shipLocations = ship.locationString;
+        let btn = "";
+        console.log(`${ship.name} ${ship.id} ${ship.size} ${ship.locationString}`);
+        for (let i=0; i<ship.locationString.length; i++) {
+            btn = document.getElementById(ship.locationString[i]);
+            btn.style.backgroundColor = "black";
+            btn.innerHTML = btn.id;
+            btn.style.color = "white";
+            btn.style.fontSize = "18px"     
+        }
+    }))
+} 
+// create ship's location status array
+const createShipLocationsStatus = (shipId, shipLocationArray) => {
+    for (let i=0; i<shipsArray.length; i++) {
+        if (shipsArray[i].id === shipId) {
+            shipsArray[i].locationStatus.id = "notHit";
+        }
+    }
+}
+// return updated ship location status
+const updateShipLocationStatus = (shipLocationArray, shipLocationStatusArray, buttonId) => {
+    for (let i=0; i<shipLocationArray.length; i++) {
+        if (shipLocationArray[i] === buttonId) 
+            shipLocationStatusArray[i] = true;
+    return shipLocationStatusArray;;
+    }
+}    
 const prepareNewGame = () => {
     gameStarted = true;
     console.log (gameStarted);
@@ -61,15 +100,33 @@ const prepareNewGame = () => {
                                             
                         <button type="button" class="ships-rules__new-game">New Game</button>
                         ${gameShipsPanel()}   
-                    </div>`     
-    
+                    </div>`  
+    putShipsOnBoard();                   
+    displayShips();
     const newGameButton = document.querySelector(".ships-rules__new-game");
     newGameButton.addEventListener ("click", (event) => {
         console.log("New Game button clicked")
         prepareNewGame();
     })
+    
+    const allButtons = document.getElementsByClassName("game-board__button");
+    for (let i=0; i<allButtons.length;i++) {
+        allButtons[i].addEventListener("click", (event) => {
+            for (let j=0; j<shipsArray.length; j++) {
+                updateShipLocationStatus(shipsArray[j].locationString, shipsArray[j].locationStatus, allButtons[i].id);
+                console.log(shipsArray[j].name);
+                console.log(shipsArray[j].locationString);
+                console.log(shipsArray[j].locationStatus);
+            }
+            console.log(allButtons[i].id);
+            
+            allButtons[i].style.backgroundImage = "url(./images/explosion1.gif)";
+            allButtons[i].style.backgroundSize = "cover";
+        })
+    }
     // get one button and try to click
-     const btn1 = document.getElementById("01");
+     const btn1 = document.getElementById("11");
+     console.log(typeof btn1);
      btn1.addEventListener ("click", (event) => {
          btn1.style.backgroundImage = "url(./images/explosion1.gif)";
          btn1.style.backgroundSize = "cover";
@@ -77,7 +134,7 @@ const prepareNewGame = () => {
      })
 
      // get another button and try to click
-     const btn2 = document.getElementById("02");
+     const btn2 = document.getElementById("12");
      btn2.addEventListener ("click", (event) => {
          console.log("button 2 clicked");
          btn2.style.backgroundImage = "url(./images/explosion.gif)";
@@ -85,7 +142,7 @@ const prepareNewGame = () => {
      })
 
      // get another button and try to click
-     const btn3 = document.getElementById("03");
+     const btn3 = document.getElementById("13");
      btn3.addEventListener ("click", (event) => {
          console.log("button 3 clicked");
          btn3.style.backgroundImage = "url(./images/water-splash.gif)";
@@ -108,11 +165,7 @@ const generateShipLocation = (ship_lenght) => {
    x[0] = Math.floor(Math.random() * 10 + 1);
    y[0] = Math.floor(Math.random() * 10 + 1);
    shipLocation.push([x[0],y[0]]);
-   //console.log("start x: " + x[0]);
-   //console.log("start y: " + y[0]);
    const direction = Math.floor(Math.random() * directions.length) ;
-   //const direction = 3 ;
-   //console.log("direction: " + direction);
    for (let i = 1; i<ship_lenght; i++) {
     switch (direction) {
         case 0:
@@ -147,15 +200,12 @@ const generateShipLocation = (ship_lenght) => {
     }  // switch end
     shipLocation.push([x[i],y[i]]);
     } //loop end
-    //console.log("ship's x coordinate: " + x);
-    //console.log("ship's y coordinate: " + y);
     return (shipLocation);     
    } // function end
 
 
 const validateShipWithinBoard = (shipLocation) => {
     let withinBoard = true;
-    
     for (let i=0; i<shipLocation.length; i++) {
         //console.log(shipLocation[i]);
         for (let j=0; j<shipLocation[i].length; j++) {
@@ -165,7 +215,6 @@ const validateShipWithinBoard = (shipLocation) => {
             }
         }
     }   
-    //console.log(withinBoard);
     return (withinBoard);
 }
 
@@ -185,7 +234,6 @@ const validateShipsDoNotCollide = (id,shipLocationArrayOfStrings) => {
             }
         }
     }  
-    //console.log(prevShipsLocations);
     return isCollision;
 }
 // convert array of arrays ship location to string
@@ -197,44 +245,53 @@ const shipStringLocation = (location) => {
     return locationString;
     }
 
+// generate ship location status
+const shipLocationStatus = (size) => {
+    let locationStatus = [];
+    for (let i=0; i < size; i++) {
+            locationStatus[i] = false;
+        }
+    return locationStatus;
+    }    
+
 // generate ships location and validate within board and collision
-shipsArray.forEach((ship => {
-    let location = generateShipLocation(ship.size);
-    let locationString = shipStringLocation(location);
-    console.log(`${ship.name} was initially generated, and its initial location is ${locationString}`);
-    //console.log(locationString);
-    let shipWithinBoard = validateShipWithinBoard (location);
-    //console.log("isWithinBoard " + shipWithinBoard);
-    let collide = validateShipsDoNotCollide(ship.id,locationString);
-    //console.log("collision " + collide);
-    
-    let counter = 0;
-    
-    while ((shipWithinBoard == false || collide == "Ships collide") && counter < 10) {
-        //|| collide == "Ships collide"
-        console.log ("regenerating ship location attempt # " + counter) ;
-        counter++;
-        if (counter === 9) {
-             console.log("couldn't generate valid location for ship within 10 attempts");
-             break;
-         }
-        location = generateShipLocation(ship.size);
-        locationString  = shipStringLocation(location);
-        console.log(`Attempt # ${counter} to generate ${ship.name}, its location is ${locationString}`);
-        shipWithinBoard = validateShipWithinBoard (location);
-        //console.log("isWithinBoard2 " + shipWithinBoard);
-        collide = validateShipsDoNotCollide(ship.id,locationString);
-        //console.log("collision2 " + collide);
-
+const putShipsOnBoard = () => {
+    shipsArray.forEach((ship => {
+        let location = generateShipLocation(ship.size);
+        let locationString = shipStringLocation(location);
+        let locationStatus = shipLocationStatus(ship.size);
+        console.log(`${ship.name} was initially generated, and its initial location is ${locationString} and its location status is ${locationStatus}`);
+        let shipWithinBoard = validateShipWithinBoard (location);
+        let collide = validateShipsDoNotCollide(ship.id,locationString);
+            
+        let counter = 0;
+        
+        while ((shipWithinBoard == false || collide == "Ships collide") && counter < 10) {
+            //|| collide == "Ships collide"
+            console.log ("regenerating ship location attempt # " + counter) ;
+            counter++;
+            if (counter === 9) {
+                 console.log("couldn't generate valid location for ship within 10 attempts");
+                 break;
+             }
+            location = generateShipLocation(ship.size);
+            locationString  = shipStringLocation(location);
+            locationStatus = shipLocationStatus(ship.size);
+            console.log(`Attempt # ${counter} to generate ${ship.name}, its location is ${locationString}`);
+            shipWithinBoard = validateShipWithinBoard (location);
+            collide = validateShipsDoNotCollide(ship.id,locationString);
+        }
+        ship.location = location;
+        ship.locationString  = locationString;
+        ship.locationStatus = locationStatus;
+        console.log(`${ship.name} size is ${ship.size} and its location is ${ship.locationString} and its location status is ${locationStatus}`);
+         
+       } // for each end
+    ))    
+    // shipsArray.forEach((ship => {
+    //     console.table(ship.location);
+    //     console.log("this is a string location " + ship.locationString);
+    //     console.log("this is a ship location status " + ship.locationStatus);
+    // }))
     }
-    ship.location = location;
-    ship.locationString  = locationString;
-    console.log(`${ship.name} size is ${ship.size} and its location is ${ship.locationString}`);
-    //console.table(ship.location);    
-} // for each end
-))
 
-shipsArray.forEach((ship => {
-    console.table(ship.location);
-    console.log(ship.locationString);
-}))

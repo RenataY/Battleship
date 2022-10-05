@@ -18,7 +18,7 @@ export const shipsArray = [
     {
         id: 3,
         name: "Cruiser",
-        size: 3,
+        size: 4,
         image: "./images/cruiser.png",
         imageHit: "./images/cruiser-hit.png",
         picClass: "cruiser"
