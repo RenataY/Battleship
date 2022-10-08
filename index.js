@@ -55,10 +55,10 @@ const displayShips = () => {
         console.log(`${ship.name} ${ship.id} ${ship.size} ${ship.locationString}`);
         for (let i=0; i<ship.locationString.length; i++) {
             btn = document.getElementById(ship.locationString[i]);
-            btn.style.backgroundColor = "black";
-            btn.innerHTML = btn.id;
+            btn.style.backgroundColor = "grey";
+            //btn.innerHTML = btn.id;
             //btn.style.color = "white";
-            btn.style.fontSize = "18px"     
+            //btn.style.fontSize = "18px"     
         }
     }))
 } 
@@ -93,6 +93,36 @@ const isShipDestroyed = (ship) => {
     if (ship.locationStatus.length === counter) isDestroyed = true;
     return isDestroyed;
 } 
+//fuction to handle end of the game
+const gameoverActions = () => {
+    const okButton = document.querySelector(".game-over-box__buttons--ok");
+    const cancelButtton = document.querySelector(".game-over-box__buttons--cancel");
+    const gameoverBox = document.querySelector(".game-over-box");
+    gameoverBox.style.display = "flex";
+    okButton.addEventListener("click", (event) => {
+        gameoverBox.style.display="none";
+        prepareNewGame();
+    })
+    cancelButtton.addEventListener("click", (event) => {
+        gameoverBox.style.display="none";
+    })
+}
+// function to check if a game is over e.g. all ships destroyed
+const isGameOver = () => {
+    let gameOver = false;
+    let counter = 0;
+    for (let i=0; i<shipsArray.length; i++) {
+        //console.log("is ship destroyed: " + shipsArray[i].isShipDestroyed);
+        if (shipsArray[i].isShipDestroyed) {
+            counter++;
+            //console.log("counter: " + counter);
+        }
+        
+    }
+    if (counter == shipsArray.length) gameOver = true;
+    //console.log("game over: " + gameOver)
+    return gameOver;
+}
 
 const prepareNewGame = () => {
     gameStarted = true;
@@ -108,7 +138,6 @@ const prepareNewGame = () => {
                         ${gameShipsPanel()}   
                     </div>`  
     putShipsOnBoard();                   
-    //displayShips();
     const newGameButton = document.querySelector(".ships-rules__new-game");
     newGameButton.addEventListener ("click", (event) => {
         console.log("New Game button clicked")
@@ -116,7 +145,7 @@ const prepareNewGame = () => {
     })
     const revealShipsButton = document.querySelector(".ships-rules__reveal-ships");
     revealShipsButton.addEventListener ("click", (event) => {
-        console.log("Reveal ships button clicked");
+        //console.log("Reveal ships button clicked");
         displayShips();
     })
     const allButtons = document.getElementsByClassName("game-board__button");
@@ -126,15 +155,19 @@ const prepareNewGame = () => {
             
             for (let j=0; j<shipsArray.length; j++) {
                 updateShipLocationStatus(shipsArray[j].locationString, shipsArray[j].locationStatus, allButtons[i].id);
-                if (isShipDestroyed(shipsArray[j])) replaceToHitShipPic(shipsArray[j]);
-                console.log("Is ship destroyed: " + isShipDestroyed(shipsArray[j]));
-                console.log(shipsArray[j].name);
-                console.log(shipsArray[j].locationString);
-                console.log(shipsArray[j].locationString.length);
-                console.log(shipsArray[j].locationStatus);
+                if (isShipDestroyed(shipsArray[j])) {
+                    replaceToHitShipPic(shipsArray[j]);
+                    shipsArray[j].isShipDestroyed = true;
+                    //console.log(shipsArray[j]);
+                }
+                    
+                // console.log("Is ship destroyed: " + isShipDestroyed(shipsArray[j]));
+                // console.log(shipsArray[j].name);
+                // console.log(shipsArray[j].locationString);
+                // console.log(shipsArray[j].locationString.length);
+                // console.log(shipsArray[j].locationStatus);
             }
-
-            console.log(allButtons[i].id);
+            //console.log(allButtons[i].id);
             if (buttonImage(allButtons[i].id)) {
                 allButtons[i].style.backgroundImage = "url(./images/explosion1.gif)";
                 allButtons[i].style.backgroundSize = "cover";
@@ -143,6 +176,11 @@ const prepareNewGame = () => {
                 allButtons[i].style.backgroundImage = "url(./images/water-splash.gif)";
                 allButtons[i].style.backgroundSize = "cover";
             }
+            console.log(isGameOver());
+            if (isGameOver() === true) {
+                console.log("game over: " + isGameOver())
+                gameoverActions();
+            }
             
         })
     }             
@@ -150,7 +188,7 @@ const prepareNewGame = () => {
 
 // start the game, main function
 playButton.addEventListener("click", (event) => {
-    prepareNewGame();
+    prepareNewGame();    
 })
 
 const directions = ["up", "down", "right", "left"];
@@ -260,7 +298,6 @@ const putShipsOnBoard = () => {
         console.log(`${ship.name} was initially generated, and its initial location is ${locationString} and its location status is ${locationStatus}`);
         let shipWithinBoard = validateShipWithinBoard (location);
         let collide = validateShipsDoNotCollide(ship.id,locationString);
-            
         let counter = 0;
         
         while ((shipWithinBoard == false || collide == "Ships collide") && counter < 10) {
@@ -281,14 +318,11 @@ const putShipsOnBoard = () => {
         ship.location = location;
         ship.locationString  = locationString;
         ship.locationStatus = locationStatus;
-        console.log(`${ship.name} size is ${ship.size} and its location is ${ship.locationString} and its location status is ${locationStatus}`);
+        ship.isShipDestroyed = false;
+        //console.log(`${ship.name} size is ${ship.size} and its location is ${ship.locationString} and its location status is ${locationStatus}`);
          
        } // for each end
     ))    
-    // shipsArray.forEach((ship => {
-    //     console.table(ship.location);
-    //     console.log("this is a string location " + ship.locationString);
-    //     console.log("this is a ship location status " + ship.locationStatus);
-    // }))
+    
     }
 
