@@ -257,6 +257,7 @@ $gameHighlightColor: #2f3e46;
         @media screen and (max-width: 500px) {
             width: 60px; 
             font-size: 10px;
+            color: $gameHighlightColor;
         }
     }
     &--ok:hover, &--cancel:hover {
