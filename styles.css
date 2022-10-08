@@ -244,6 +244,7 @@
   .game-over-box__buttons--ok, .game-over-box__buttons--cancel {
     width: 60px;
     font-size: 10px;
+    color: #2f3e46;
   }
 }
 .game-over-box__buttons--ok:hover, .game-over-box__buttons--cancel:hover {
