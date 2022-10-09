@@ -71,6 +71,7 @@
 }
 .game-board__playbutton:hover {
   color: #2f3e46;
+  cursor: pointer;
 }
 .game-board__button {
   background-color: transparent;
@@ -182,6 +183,7 @@
 }
 .ships-rules__new-game:hover {
   color: #2f3e46;
+  cursor: pointer;
 }
 .ships-rules__reveal-ships {
   padding: 20px;
@@ -195,6 +197,7 @@
 }
 .ships-rules__reveal-ships:hover {
   color: #D9D9D9;
+  cursor: pointer;
 }
 
 .ships-rules__pics {
@@ -249,4 +252,5 @@
 }
 .game-over-box__buttons--ok:hover, .game-over-box__buttons--cancel:hover {
   box-shadow: 0 6px 8px 0px #D9D9D9;
+  cursor: pointer;
 }/*# sourceMappingURL=styles.css.map */

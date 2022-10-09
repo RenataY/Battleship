@@ -44,13 +44,13 @@ const gameShipsPanel = () => {
 // function to replace a ship picture with hit ship picture
 const replaceToHitShipPic = (ship) => {
     const shipPic = document.querySelector(".ships-rules__ships__" + ship.picClass );
-    console.log (shipPic);
+    //console.log (shipPic);
     shipPic.src = ship.imageHit;
 }
 // just for development - function to display ships on the board
 const displayShips = () => {
     shipsArray.forEach((ship => {
-        const shipLocations = ship.locationString;
+        //const shipLocations = ship.locationString;
         let btn = "";
         console.log(`${ship.name} ${ship.id} ${ship.size} ${ship.locationString}`);
         for (let i=0; i<ship.locationString.length; i++) {
@@ -126,7 +126,7 @@ const isGameOver = () => {
 
 const prepareNewGame = () => {
     gameStarted = true;
-    console.log (gameStarted);
+    //console.log (gameStarted);
     container.innerHTML="";
     container.style.backgroundImage = "url(./images/battleship-background3.jpg)"
     createBoard();
@@ -152,7 +152,6 @@ const prepareNewGame = () => {
     for (let i=0; i<allButtons.length;i++) {
         //let btnHit = false;
         allButtons[i].addEventListener("click", (event) => {
-            
             for (let j=0; j<shipsArray.length; j++) {
                 updateShipLocationStatus(shipsArray[j].locationString, shipsArray[j].locationStatus, allButtons[i].id);
                 if (isShipDestroyed(shipsArray[j])) {
@@ -176,12 +175,11 @@ const prepareNewGame = () => {
                 allButtons[i].style.backgroundImage = "url(./images/water-splash.gif)";
                 allButtons[i].style.backgroundSize = "cover";
             }
-            console.log(isGameOver());
+            //console.log(isGameOver());
             if (isGameOver() === true) {
                 console.log("game over: " + isGameOver())
                 gameoverActions();
             }
-            
         })
     }             
 }
